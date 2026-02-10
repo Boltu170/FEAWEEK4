@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Statement Analysis - Interactive Lecture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Calibri:wght@400;600;700&family=Arial:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Calibri', 'Arial', sans-serif;
+        background: #FFFFFF;
+        color: #1E3A5F;
+        line-height: 1.8;
+        overflow-x: hidden;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 40px 250px 40px;
+        min-height: 100vh;
+        background: #FFFFFF;
+    }
+
+    .slide {
+        display: none;
+        animation: slideIn 0.5s ease-out;
+    }
+
+    .slide.active {
+        display: block;
+    }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-header {
+        margin-bottom: 30px;
+        border-bottom: 3px solid #003D5C;
+        padding-bottom: 15px;
+    }
+
+    .slide-number {
+        font-size: 13px;
+        font-weight: 600;
+        color: #4A90C5;
+        letter-spacing: 1.5px;
+        margin-bottom: 8px;
+    }
+
+    h1 {
+        font-family: 'Arial', sans-serif;
+        font-size: 44px;
+        line-height: 1.2;
+        margin-bottom: 20px;
+        color: #003D5C;
+        font-weight: 700;
+    }
+
+    h2 {
+        font-size: 32px;
+        margin: 25px 0 15px;
+        color: #003D5C;
+        font-weight: 700;
+    }
+
+    h3 {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 20px 0 12px;
+        color: #2E5C8A;
+    }
+
+    /* BIG VISUAL BOX */
+    .big-visual {
+        background: linear-gradient(135deg, #F8F9FA 0%, #E8F4F8 100%);
+        border: 3px solid #4A90C5;
+        padding: 50px;
+        margin: 30px 0;
+        border-radius: 12px;
+        text-align: center;
+        min-height: 250px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .big-visual h2 {
+        font-size: 48px;
+        color: #003D5C;
+        margin-bottom: 20px;
+    }
+
+    .big-visual p {
+        font-size: 24px;
+        color: #1E3A5F;
+        line-height: 1.6;
+    }
+
+    /* SIMPLE BOX */
+    .simple-box {
+        background: #FFFFFF;
+        border-left: 5px solid #4A90C5;
+        padding: 25px 30px;
+        margin: 25px 0;
+        font-size: 20px;
+        line-height: 2;
+    }
+
+    .simple-box p {
+        font-size: 22px;
+        margin: 15px 0;
+    }
+
+    .simple-box strong {
+        color: #003D5C;
+        font-size: 24px;
+    }
+
+    /* EXAMPLE BOX */
+    .example-box {
+        background: #FFF9E6;
+        border: 3px solid #F59E0B;
+        border-radius: 8px;
+        padding: 30px;
+        margin: 25px 0;
+    }
+
+    .example-box h3 {
+        color: #92400E;
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+
+    .example-box p {
+        font-size: 20px;
+        line-height: 1.8;
+        margin: 12px 0;
+    }
+
+    /* FORMAT BOX - Special for financial statement formats */
+    .format-box {
+        background: #F0F9FF;
+        border: 3px solid #0284C7;
+        border-radius: 8px;
+        padding: 30px;
+        margin: 25px 0;
+        font-family: 'Courier New', monospace;
+    }
+
+    .format-box h3 {
+        color: #0C4A6E;
+        font-size: 26px;
+        margin-bottom: 20px;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .format-box pre {
+        font-size: 16px;
+        line-height: 1.8;
+        color: #1E3A5F;
+        white-space: pre-wrap;
+    }
+
+    /* Two-column table for financial statements */
+    .statement-table {
+        width: 100%;
+        margin: 20px 0;
+        background: #FFFFFF;
+        border-collapse: collapse;
+    }
+
+    .statement-table th {
+        background: #003D5C;
+        color: white;
+        padding: 12px;
+        text-align: right;
+        font-size: 16px;
+        font-weight: 600;
+        border-bottom: 3px solid #003D5C;
+    }
+
+    .statement-table th:first-child {
+        text-align: left;
+    }
+
+    .statement-table td {
+        padding: 8px 15px;
+        border: none;
+    }
+
+    .statement-table td:first-child {
+        text-align: left;
+        font-size: 16px;
+        color: #1E3A5F;
+    }
+
+    .statement-table td:nth-child(2) {
+        text-align: right;
+        font-size: 16px;
+        color: #4A90C5;
+        font-family: 'Courier New', monospace;
+        width: 150px;
+        background: #F8F9FA;
+    }
+
+    .statement-table td:nth-child(3) {
+        text-align: right;
+        font-size: 18px;
+        font-weight: 600;
+        color: #003D5C;
+        font-family: 'Courier New', monospace;
+        width: 150px;
+        background: #E8F4F8;
+    }
+
+    .statement-table tr.section-header td {
+        font-weight: 700;
+        font-size: 17px;
+        color: #003D5C;
+        padding-top: 15px;
+        background: transparent !important;
+    }
+
+    .statement-table tr.indent-1 td:first-child {
+        padding-left: 30px;
+    }
+
+    .statement-table tr.indent-2 td:first-child {
+        padding-left: 50px;
+    }
+
+    .statement-table tr.subtotal td {
+        border-top: 1px solid #003D5C;
+        font-weight: 600;
+    }
+
+    .statement-table tr.total td {
+        border-top: 3px double #003D5C;
+        border-bottom: 3px double #003D5C;
+        font-weight: 700;
+        font-size: 19px;
+        padding: 12px 15px;
+    }
+
+    .statement-table tr.blank td {
+        padding: 5px;
+        background: transparent !important;
+    }
+
+    .negative {
+        color: #DC2626 !important;
+    }
+
+    .positive {
+        color: #059669 !important;
+    }
+
+    /* TEXTBOOK BOX */
+    .textbook-box {
+        background: #E8F4F8;
+        border: 2px solid #4A90C5;
+        border-radius: 6px;
+        padding: 20px;
+        margin: 25px 0;
+        font-size: 16px;
+    }
+
+    .textbook-box h4 {
+        color: #003D5C;
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+
+    /* QUIZ STYLING */
+    .question-box {
+        background: #F0F7FF;
+        border: 3px solid #4A90C5;
+        padding: 30px;
+        margin: 30px 0;
+        border-radius: 8px;
+    }
+
+    .mcq-option {
+        background: #FFFFFF;
+        border: 2px solid #D0D0D0;
+        padding: 18px 25px;
+        margin: 15px 0;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 18px;
+    }
+
+    .mcq-option:hover {
+        border-color: #4A90C5;
+        background: #E8F4F8;
+        transform: translateX(5px);
+    }
+
+    .mcq-option.correct {
+        border-color: #10B981;
+        background: #D1FAE5;
+    }
+
+    .mcq-option.incorrect {
+        border-color: #EF4444;
+        background: #FEE2E2;
+    }
+
+    .show-answer-btn {
+        background: #003D5C;
+        color: white;
+        border: none;
+        padding: 14px 35px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 20px;
+    }
+
+    .show-answer-btn:hover {
+        background: #002840;
+        transform: translateY(-2px);
+    }
+
+    .answer-explanation {
+        display: none;
+        margin-top: 25px;
+        padding: 25px;
+        background: #F0FFF4;
+        border: 3px solid #10B981;
+        border-radius: 6px;
+        font-size: 18px;
+        line-height: 1.8;
+    }
+
+    .answer-explanation.show {
+        display: block;
+    }
+
+    .feedback {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 18px;
+        display: none;
+    }
+
+    .feedback.show {
+        display: block;
+    }
+
+    .feedback.correct {
+        background: #D1FAE5;
+        color: #065F46;
+        border: 2px solid #10B981;
+    }
+
+    .feedback.incorrect {
+        background: #FEE2E2;
+        color: #991B1B;
+        border: 2px solid #EF4444;
+    }
+
+    .highlight {
+        background: #FEF3C7;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-weight: 700;
+        color: #92400E;
+    }
+
+    .highlight-green {
+        background: #D1FAE5;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-weight: 700;
+        color: #065F46;
+    }
+
+    .highlight-red {
+        background: #FEE2E2;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-weight: 700;
+        color: #991B1B;
+    }
+
+    ul {
+        margin: 20px 0;
+        padding-left: 40px;
+    }
+
+    li {
+        margin: 12px 0;
+        font-size: 20px;
+        line-height: 1.8;
+    }
+
+    .checkmark {
+        color: #10B981;
+        font-size: 28px;
+        margin-right: 10px;
+    }
+
+    .crossmark {
+        color: #EF4444;
+        font-size: 28px;
+        margin-right: 10px;
+    }
+
+    /* Step by step solution */
+    .step-box {
+        background: #FFFBEB;
+        border-left: 5px solid #F59E0B;
+        padding: 20px 25px;
+        margin: 15px 0;
+        border-radius: 6px;
+    }
+
+    .step-box h4 {
+        color: #92400E;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .step-box p {
+        font-size: 18px;
+        line-height: 1.8;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+    }
+
+    table th {
+        background: #003D5C;
+        color: white;
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #E0E0E0;
+    }
+
+    table tr:nth-child(even) {
+        background: #F8F9FA;
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <!-- Slide 1: What is an Income Statement? -->
+        <div class="slide active" data-slide="1">
+            <div class="slide-header">
+                <div class="slide-number">SLIDE 01 / 20</div>
+                <h1>What is an INCOME STATEMENT?</h1>
+            </div>
+
+```
+        <div class="big-visual">
+            <h2>Shows PROFIT over a PERIOD of time</h2>
+            <p style="margin-top: 30px; font-size: 28px;">Usually 1 year (e.g., Jan 1 - Dec 31)</p>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>Answers the question:</strong></p>
+            <p>"Did the business make profit this year, and HOW?"</p>
+            <p style="margin-top: 20px;"><strong>Also called:</strong></p>
+            <p><span class="checkmark">✓</span> Profit and Loss Statement (P&L)</p>
+            <p><span class="checkmark">✓</span> Statement of Comprehensive Income</p>
+        </div>
+
+        <div class="example-box">
+            <h3>📊 Real Example: Netflix Annual Report</h3>
+            <p><strong>Netflix Income Statement for 2023:</strong></p>
+            <p>Revenue: <span class="highlight">$33.7 billion</span></p>
+            <p>Costs: <span class="highlight">$29.2 billion</span></p>
+            <p>Net Profit: <span class="highlight-green">$4.5 billion</span></p>
+            <p style="margin-top: 20px; font-size: 22px;"><strong>This tells investors: "Netflix made £4.5bn profit in 2023!"</strong></p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 TEXTBOOK DEFINITION</h4>
+            <p>"The income statement shows financial performance over a period of time. It measures revenue earned and expenses incurred during that period."</p>
+        </div>
+    </div>
+
+    <!-- Slide 2: Income Statement Components -->
+    <div class="slide" data-slide="2">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 02 / 20</div>
+            <h1>INCOME STATEMENT Components</h1>
+        </div>
+
+        <div class="big-visual">
+            <h2 style="font-size: 36px;">The Flow of Profit Calculation</h2>
+            <p style="font-size: 28px; margin: 30px 0; line-height: 2;">
+                Revenue<br>
+                ⬇<br>
+                <strong>- Cost of Sales</strong><br>
+                ⬇<br>
+                <strong>= Gross Profit</strong><br>
+                ⬇<br>
+                <strong>- Operating Expenses</strong><br>
+                ⬇<br>
+                <strong>= Operating Profit</strong><br>
+                ⬇<br>
+                <strong>- Tax</strong><br>
+                ⬇<br>
+                <strong>= Net Profit</strong>
+            </p>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>1. Revenue</strong> - Income from normal business (sales, fees)</p>
+            <p><strong>2. Cost of Sales</strong> - Direct costs to make products (materials, direct labour)</p>
+            <p><strong>3. Gross Profit</strong> - Revenue minus cost of sales (basic profitability)</p>
+            <p><strong>4. Operating Expenses</strong> - Day-to-day costs (wages, rent, marketing)</p>
+            <p><strong>5. Operating Profit</strong> - Profit from core business operations</p>
+            <p><strong>6. Net Profit</strong> - Final profit after tax (the bottom line!)</p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 KEY TERMS</h4>
+            <p><strong>Gross Profit</strong> = Shows if core product is profitable before overheads</p>
+            <p><strong>Operating Profit</strong> = Shows if business operations are profitable</p>
+            <p><strong>Net Profit</strong> = Final profit available to owners/shareholders</p>
+        </div>
+    </div>
+
+    <!-- Slide 3: Income Statement FORMAT -->
+    <div class="slide" data-slide="3">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 03 / 20</div>
+            <h1>⭐ INCOME STATEMENT - Published Format ⭐</h1>
+        </div>
+
+        <div class="format-box">
+            <h3>📋 THIS IS THE EXACT FORMAT YOU MUST USE!</h3>
+            <div style="text-align: center; margin: 20px 0; font-family: Arial; font-weight: 700; font-size: 18px; color: #003D5C;">
+                ABC Company Limited<br>
+                Income Statement for the Year Ended 31 December 2025
+            </div>
+            <table class="statement-table">
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">Description</th>
+                        <th>Workings (£)</th>
+                        <th>Totals (£)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="section-header">
+                        <td><strong>Revenue</strong></td>
+                        <td></td>
+                        <td class="positive">660,000</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="section-header">
+                        <td><strong>Less: Cost of Sales</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Opening Inventory</td>
+                        <td>7,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Purchases</td>
+                        <td>396,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td></td>
+                        <td style="border-top: 1px solid #999;">403,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Less: Closing Inventory</td>
+                        <td>(9,000)</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td></td>
+                        <td></td>
+                        <td class="negative">(394,000)</td>
+                    </tr>
+                    <tr class="subtotal">
+                        <td><strong>Gross Profit</strong></td>
+                        <td></td>
+                        <td class="positive">266,000</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="section-header">
+                        <td><strong>Less: Operating Expenses</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Wages</td>
+                        <td>91,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Power</td>
+                        <td>5,500</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Advertising</td>
+                        <td>31,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Administration</td>
+                        <td>13,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Depreciation</td>
+                        <td>3,600</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Vehicle Expenses</td>
+                        <td>10,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Other Expenses</td>
+                        <td>23,900</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td></td>
+                        <td></td>
+                        <td class="negative">(178,000)</td>
+                    </tr>
+                    <tr class="subtotal">
+                        <td><strong>Operating Profit</strong></td>
+                        <td></td>
+                        <td class="positive">88,000</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="section-header">
+                        <td><strong>Less: Interest Paid</strong></td>
+                        <td></td>
+                        <td class="negative">(7,000)</td>
+                    </tr>
+                    <tr class="subtotal">
+                        <td><strong>Profit Before Tax</strong></td>
+                        <td></td>
+                        <td class="positive">81,000</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="section-header">
+                        <td><strong>Less: Taxation</strong></td>
+                        <td></td>
+                        <td class="negative">(16,500)</td>
+                    </tr>
+                    <tr class="total">
+                        <td><strong>Net Profit for the Year</strong></td>
+                        <td></td>
+                        <td class="positive">64,500</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>Key Format Rules:</strong></p>
+            <p><span class="checkmark">✓</span> Company name and period at top</p>
+            <p><span class="checkmark">✓</span> Two columns: details (£) and totals (£)</p>
+            <p><span class="checkmark">✓</span> Brackets ( ) mean negative/deduction</p>
+            <p><span class="checkmark">✓</span> Single underline for subtotals</p>
+            <p><span class="checkmark">✓</span> Double underline (====) for final answer</p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 WHY THIS FORMAT?</h4>
+            <p>This format follows UK accounting standards (FRS 102) and makes it easy to:</p>
+            <p>• Compare with previous years</p>
+            <p>• See where profit comes from (operations vs finance)</p>
+            <p>• Identify problem areas quickly</p>
+        </div>
+    </div>
+
+    <!-- Slide 4: Gross Profit Deep Dive -->
+    <div class="slide" data-slide="4">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 04 / 20</div>
+            <h1>Understanding GROSS PROFIT</h1>
+        </div>
+
+        <div class="big-visual">
+            <h2>The Cost of Sales Formula</h2>
+            <p style="font-size: 32px; margin: 30px 0; line-height: 2;">
+                <strong>Opening Stock</strong><br>
+                + Purchases<br>
+                - Closing Stock<br>
+                = <span class="highlight">Cost of Goods Sold</span>
+            </p>
+        </div>
+
+        <div class="example-box">
+            <h3>🍞 Bakery Example - Why This Formula Works</h3>
+            <p><strong>Monday morning (Opening Stock):</strong> 50 loaves in store</p>
+            <p><strong>Monday deliveries (Purchases):</strong> 200 new loaves arrive</p>
+            <p><strong>Available to sell:</strong> 50 + 200 = 250 loaves</p>
+            <p><strong>Monday night (Closing Stock):</strong> 30 loaves left</p>
+            <p style="margin-top: 20px;"><strong>How many sold?</strong></p>
+            <p>250 available - 30 left = <span class="highlight-green">220 loaves SOLD!</span></p>
+            <p style="margin-top: 20px; font-size: 22px;"><strong>This is Cost of Sales = What was actually sold to customers</strong></p>
+        </div>
+
+        <div class="step-box">
+            <h4>💡 WHY ADD Opening Stock?</h4>
+            <p>Because you had it available to sell! It could have been sold this year.</p>
+        </div>
+
+        <div class="step-box">
+            <h4>💡 WHY SUBTRACT Closing Stock?</h4>
+            <p>Because it's still in the warehouse! It WASN'T sold to customers yet, so it's not a cost this year.</p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 TEXTBOOK FORMULA</h4>
+            <p><strong>Cost of Goods Sold (COGS)</strong> = Opening Inventory + Purchases - Closing Inventory</p>
+            <p><strong>Gross Profit</strong> = Revenue - COGS</p>
+        </div>
+    </div>
+
+    <!-- Slide 5: Carol's Flowers Exercise -->
+    <div class="slide" data-slide="5">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 05 / 20</div>
+            <h1>📝 PRACTICE: Carol's Flowers</h1>
+        </div>
+
+        <div class="big-visual">
+            <h2>Your Challenge!</h2>
+            <p style="font-size: 28px; margin-top: 20px;">Prepare the Income Statement for Carol's Flowers<br>for the year ended 31 March 2025</p>
+        </div>
+
+        <div class="format-box">
+            <h3>📊 Given Data:</h3>
+            <pre>
+```
+
+Revenue                     £660,000
+Opening Inventories         £7,000
+Purchases                   £396,000
+Closing Inventories         £9,000
+
+Wages                       £91,000
+Power                       £5,500
+Advertising                 £31,000
+Administration              £13,000
+Depreciation                £3,600
+Vehicle Expenses            £10,000
+Other Expenses              £23,900
+Interest Paid               £7,000
+Taxation                    £16,500
+</pre>
+</div>
+
+```
+        <div class="simple-box">
+            <p><strong>Your Task:</strong></p>
+            <p>1. Calculate Cost of Sales</p>
+            <p>2. Calculate Gross Profit</p>
+            <p>3. Calculate Operating Profit</p>
+            <p>4. Calculate Net Profit</p>
+            <p style="margin-top: 20px; font-size: 24px; color: #F59E0B;"><strong>Try it yourself before going to next slide!</strong></p>
+        </div>
+    </div>
+
+    <!-- Slide 6: Carol's Flowers SOLUTION -->
+    <div class="slide" data-slide="6">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 06 / 20</div>
+            <h1>✅ SOLUTION: Carol's Flowers (with Explanation)</h1>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 1: Calculate Cost of Sales</h4>
+            <p><strong>Formula:</strong> Opening Stock + Purchases - Closing Stock</p>
+            <p>= £7,000 + £396,000 - £9,000</p>
+            <p>= <span class="highlight-green">£394,000</span></p>
+            <p><strong>Why?</strong> This is the value of flowers Carol actually SOLD to customers (not the ones left in stock)</p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 2: Calculate Gross Profit</h4>
+            <p><strong>Formula:</strong> Revenue - Cost of Sales</p>
+            <p>= £660,000 - £394,000</p>
+            <p>= <span class="highlight-green">£266,000</span></p>
+            <p><strong>Why?</strong> This shows Carol made £266k profit BEFORE paying for overheads like rent and wages</p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 3: Calculate Total Operating Expenses</h4>
+            <p>Wages (£91,000) + Power (£5,500) + Advertising (£31,000) + Admin (£13,000) + Depreciation (£3,600) + Vehicle (£10,000) + Other (£23,900)</p>
+            <p>= <span class="highlight-red">£178,000</span></p>
+            <p><strong>Why?</strong> These are day-to-day running costs - NOT directly related to making flowers</p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 4: Calculate Operating Profit</h4>
+            <p><strong>Formula:</strong> Gross Profit - Operating Expenses</p>
+            <p>= £266,000 - £178,000</p>
+            <p>= <span class="highlight-green">£88,000</span></p>
+            <p><strong>Why?</strong> This is profit from Carol's CORE BUSINESS (before interest and tax)</p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 5: Calculate Profit Before Tax</h4>
+            <p><strong>Formula:</strong> Operating Profit - Interest</p>
+            <p>= £88,000 - £7,000</p>
+            <p>= <span class="highlight-green">£81,000</span></p>
+            <p><strong>Why?</strong> Interest is financing cost (not operations), so deduct it separately</p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 6: Calculate Net Profit</h4>
+            <p><strong>Formula:</strong> Profit Before Tax - Tax</p>
+            <p>= £81,000 - £16,500</p>
+            <p>= <span class="highlight-green">£64,500</span></p>
+            <p><strong>Why?</strong> This is the FINAL profit Carol keeps after paying the government!</p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 FINAL ANSWER</h4>
+            <p><strong>Carol's Flowers Net Profit for year ended 31.03.25:</strong> £64,500</p>
+            <p>This means Carol's business earned £64,500 profit that can be distributed to owners or reinvested!</p>
+        </div>
+    </div>
+
+    <!-- Slide 7: Quiz - Income Statement -->
+    <div class="slide" data-slide="7">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 07 / 20</div>
+            <h1>✓ Check Understanding: Income Statement</h1>
+        </div>
+
+        <div class="question-box">
+            <h3 style="color: #003D5C; font-size: 24px;">A shop has Opening Stock £5,000, Purchases £20,000, Closing Stock £8,000. What is Cost of Sales?</h3>
+            <div class="mcq-option" onclick="checkAnswer(7, 'A', false)">
+                A) £33,000 (add everything)
+            </div>
+            <div class="mcq-option" onclick="checkAnswer(7, 'B', true)">
+                B) £17,000 (£5k + £20k - £8k)
+            </div>
+            <div class="mcq-option" onclick="checkAnswer(7, 'C', false)">
+                C) £12,000 (£20k - £8k)
+            </div>
+            <div class="mcq-option" onclick="checkAnswer(7, 'D', false)">
+                D) £15,000 (£20k - £5k)
+            </div>
+            <div class="feedback" id="feedback-7"></div>
+            <button class="show-answer-btn" onclick="toggleExplanation(7)">Show Answer</button>
+            <div class="answer-explanation" id="explanation-7"></div>
+        </div>
+    </div>
+
+    <!-- Slide 8: What is a Balance Sheet? -->
+    <div class="slide" data-slide="8">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 08 / 20</div>
+            <h1>What is a BALANCE SHEET?</h1>
+        </div>
+
+        <div class="big-visual">
+            <h2>A SNAPSHOT at ONE moment in time</h2>
+            <p style="margin-top: 30px; font-size: 28px;">Like taking a photo of your finances on a specific date</p>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>What does it show?</strong></p>
+            <p><span class="checkmark">✓</span> What the business OWNS (Assets)</p>
+            <p><span class="checkmark">✓</span> What the business OWES (Liabilities)</p>
+            <p><span class="checkmark">✓</span> What belongs to OWNERS (Equity)</p>
+            <p style="margin-top: 20px;"><strong>Also called:</strong></p>
+            <p>• Statement of Financial Position</p>
+        </div>
+
+        <div class="example-box">
+            <h3>🏠 Personal Finance Example</h3>
+            <p><strong>You own:</strong></p>
+            <p>House worth £250,000 (Asset)</p>
+            <p>Car worth £15,000 (Asset)</p>
+            <p>Cash £5,000 (Asset)</p>
+            <p><strong>Total Assets = £270,000</strong></p>
+            
+            <p style="margin-top: 20px;"><strong>You owe:</strong></p>
+            <p>Mortgage £180,000 (Liability)</p>
+            <p>Car loan £8,000 (Liability)</p>
+            <p><strong>Total Liabilities = £188,000</strong></p>
+            
+            <p style="margin-top: 20px;"><strong>Your net worth (Equity):</strong></p>
+            <p>£270,000 - £188,000 = <span class="highlight-green">£82,000</span></p>
+            <p style="font-size: 22px; margin-top: 15px;"><strong>This is EXACTLY how a balance sheet works for businesses!</strong></p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 TEXTBOOK DEFINITION</h4>
+            <p>"The balance sheet shows the financial position of a business at a specific point in time. It lists assets, liabilities, and equity."</p>
+        </div>
+    </div>
+
+    <!-- Slide 9: The Accounting Equation -->
+    <div class="slide" data-slide="9">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 09 / 20</div>
+            <h1>The ACCOUNTING EQUATION</h1>
+        </div>
+
+        <div class="big-visual">
+            <h2 style="font-size: 52px;">ASSETS = LIABILITIES + EQUITY</h2>
+            <p style="margin-top: 30px; font-size: 28px;">This MUST ALWAYS balance!</p>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>Why does it balance?</strong></p>
+            <p>Everything a business owns (assets) is funded by either:</p>
+            <p><span class="checkmark">✓</span> <strong>Liabilities</strong> - Money borrowed from others (loans, suppliers)</p>
+            <p><span class="checkmark">✓</span> <strong>Equity</strong> - Money from owners (investment + retained profits)</p>
+            <p style="margin-top: 20px; font-size: 24px;"><strong>Assets are FUNDED BY liabilities and equity!</strong></p>
+        </div>
+
+        <div class="example-box">
+            <h3>🏢 Office Building Example</h3>
+            <p><strong>Company buys office for £500,000</strong></p>
+            <p style="margin-top: 20px;"><strong>How did they pay for it?</strong></p>
+            <p>Bank loan: £350,000 (Liability)</p>
+            <p>Owner's money: £150,000 (Equity)</p>
+            <p style="margin-top: 20px;"><strong>Check the equation:</strong></p>
+            <p>Assets (£500k building) = Liabilities (£350k loan) + Equity (£150k owner's money)</p>
+            <p>£500,000 = £350,000 + £150,000 ✓</p>
+            <p style="margin-top: 20px; font-size: 22px;"><strong>It balances! That's why it's called a Balance Sheet!</strong></p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 KEY PRINCIPLE</h4>
+            <p>The accounting equation MUST always balance. If it doesn't, there's an error in the accounts!</p>
+        </div>
+    </div>
+
+    <!-- Slide 10: Balance Sheet Format Part 1 -->
+    <div class="slide" data-slide="10">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 10 / 20</div>
+            <h1>⭐ BALANCE SHEET Format - PART 1: Assets ⭐</h1>
+        </div>
+
+        <div class="format-box">
+            <h3>📋 TOP HALF: What the Business OWNS</h3>
+            <div style="text-align: center; margin: 20px 0; font-family: Arial; font-weight: 700; font-size: 18px; color: #003D5C;">
+                XYZ Company Limited<br>
+                Balance Sheet as at 31 December 2025
+            </div>
+            <table class="statement-table">
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">Description</th>
+                        <th>Workings (£)</th>
+                        <th>Totals (£)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="section-header">
+                        <td><strong>NON-CURRENT ASSETS</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Land & Buildings</td>
+                        <td>150,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Equipment</td>
+                        <td>45,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Vehicles</td>
+                        <td>25,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="subtotal">
+                        <td></td>
+                        <td></td>
+                        <td class="positive">220,000</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="section-header">
+                        <td><strong>CURRENT ASSETS</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Inventory (Stock)</td>
+                        <td>9,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Trade Receivables (Debtors)</td>
+                        <td>15,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Cash at Bank</td>
+                        <td>12,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="subtotal">
+                        <td></td>
+                        <td></td>
+                        <td class="positive">36,000</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="total">
+                        <td><strong>TOTAL ASSETS</strong></td>
+                        <td></td>
+                        <td class="positive">256,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>NON-CURRENT ASSETS</strong> (Fixed Assets)</p>
+            <p>• Long-term assets used for MORE than 1 year</p>
+            <p>• Examples: Buildings, machinery, vehicles</p>
+            <p>• Listed in order: longest-lasting first</p>
+            
+            <p style="margin-top: 20px;"><strong>CURRENT ASSETS</strong></p>
+            <p>• Short-term assets used within 1 year</p>
+            <p>• Examples: Stock, money owed by customers, cash</p>
+            <p>• Listed in order of liquidity (cash last = most liquid)</p>
+        </div>
+
+        <div class="step-box">
+            <h4>💡 WHY Separate Non-Current and Current?</h4>
+            <p>Non-current = Long-term investment (buildings last 20+ years)</p>
+            <p>Current = Short-term working capital (cash needed to run business day-to-day)</p>
+            <p>Investors want to see BOTH types to understand the business!</p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 KEY DEFINITIONS</h4>
+            <p><strong>Non-Current Assets:</strong> Assets held for long-term use (>1 year)</p>
+            <p><strong>Current Assets:</strong> Assets expected to be converted to cash within 1 year</p>
+        </div>
+    </div>
+
+    <!-- Slide 11: Balance Sheet Format Part 2 -->
+    <div class="slide" data-slide="11">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 11 / 20</div>
+            <h1>⭐ BALANCE SHEET Format - PART 2: Liabilities & Equity ⭐</h1>
+        </div>
+
+        <div class="format-box">
+            <h3>📋 BOTTOM HALF: What the Business OWES + EQUITY</h3>
+            <table class="statement-table">
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">Description</th>
+                        <th>Workings (£)</th>
+                        <th>Totals (£)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="section-header">
+                        <td><strong>CURRENT LIABILITIES</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Trade Payables (Creditors)</td>
+                        <td>18,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Short-term Loan</td>
+                        <td>10,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="subtotal">
+                        <td></td>
+                        <td></td>
+                        <td class="negative">(28,000)</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="subtotal">
+                        <td><strong>WORKING CAPITAL</strong><br><span style="font-size: 14px; font-weight: 400;">(Current Assets - Current Liabilities)</span></td>
+                        <td></td>
+                        <td class="positive">8,000</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="section-header">
+                        <td><strong>NON-CURRENT LIABILITIES</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Long-term Bank Loan</td>
+                        <td></td>
+                        <td class="negative">(80,000)</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="total">
+                        <td><strong>NET ASSETS</strong></td>
+                        <td></td>
+                        <td class="positive">148,000</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="section-header">
+                        <td colspan="3" style="text-align: center; background: #003D5C !important; color: white; padding: 10px; font-size: 16px;"><strong>FINANCED BY:</strong></td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="section-header">
+                        <td><strong>EQUITY</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Share Capital</td>
+                        <td>100,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Retained Earnings</td>
+                        <td>48,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="total">
+                        <td><strong>TOTAL EQUITY</strong></td>
+                        <td></td>
+                        <td class="positive">148,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>CURRENT LIABILITIES</strong></p>
+            <p>• Debts due within 1 year</p>
+            <p>• Examples: Suppliers to pay, short-term loans, tax owed</p>
+            
+            <p style="margin-top: 20px;"><strong>WORKING CAPITAL</strong></p>
+            <p>• Current Assets - Current Liabilities</p>
+            <p>• Shows if business can pay short-term bills!</p>
+            
+            <p style="margin-top: 20px;"><strong>NON-CURRENT LIABILITIES</strong></p>
+            <p>• Long-term debts (due after 1 year)</p>
+            <p>• Examples: Bank loans, bonds</p>
+            
+            <p style="margin-top: 20px;"><strong>EQUITY</strong></p>
+            <p>• Owners' investment + retained profits</p>
+            <p>• What belongs to shareholders</p>
+        </div>
+
+        <div class="big-visual" style="min-height: 180px; padding: 30px;">
+            <h2 style="font-size: 36px;">CRITICAL RULE!</h2>
+            <p style="font-size: 24px; margin-top: 20px;">NET ASSETS <strong>MUST EQUAL</strong> EQUITY</p>
+            <p style="font-size: 20px; margin-top: 15px;">£148,000 = £148,000 ✓</p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 KEY FORMULAS</h4>
+            <p><strong>Working Capital</strong> = Current Assets - Current Liabilities</p>
+            <p><strong>Net Assets</strong> = Total Assets - Total Liabilities</p>
+            <p><strong>Net Assets = Equity</strong> (must balance!)</p>
+        </div>
+    </div>
+
+    <!-- Slide 12: Working Capital Explained -->
+    <div class="slide" data-slide="12">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 12 / 20</div>
+            <h1>Understanding WORKING CAPITAL</h1>
+        </div>
+
+        <div class="big-visual">
+            <h2>Working Capital = Current Assets - Current Liabilities</h2>
+            <p style="margin-top: 30px; font-size: 28px;">Can you pay your bills THIS YEAR?</p>
+        </div>
+
+        <div class="example-box">
+            <h3>🏪 Retail Shop Example</h3>
+            <p><strong>Current Assets:</strong></p>
+            <p>Stock: £25,000</p>
+            <p>Debtors: £10,000</p>
+            <p>Cash: £5,000</p>
+            <p><strong>Total: £40,000</strong></p>
+            
+            <p style="margin-top: 20px;"><strong>Current Liabilities:</strong></p>
+            <p>Suppliers to pay: £15,000</p>
+            <p>Tax due: £8,000</p>
+            <p><strong>Total: £23,000</strong></p>
+            
+            <p style="margin-top: 20px;"><strong>Working Capital:</strong></p>
+            <p>£40,000 - £23,000 = <span class="highlight-green">£17,000 POSITIVE ✓</span></p>
+            <p style="font-size: 22px; margin-top: 15px;"><strong>Good! Shop has £17k extra to cover short-term needs!</strong></p>
+        </div>
+
+        <div class="example-box">
+            <h3>⚠️ Negative Working Capital - DANGER!</h3>
+            <p><strong>Struggling Restaurant:</strong></p>
+            <p>Current Assets: £12,000</p>
+            <p>Current Liabilities: £25,000</p>
+            <p>Working Capital: £12,000 - £25,000 = <span class="highlight-red">-£13,000 NEGATIVE ✗</span></p>
+            <p style="font-size: 22px; margin-top: 15px; color: #991B1B;"><strong>BAD! Restaurant owes £13k more than it has! Cash flow crisis!</strong></p>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>Why Working Capital Matters:</strong></p>
+            <p><span class="checkmark">✓</span> <strong>Positive</strong> = Can pay bills, healthy business</p>
+            <p><span class="crossmark">✗</span> <strong>Negative</strong> = Can't pay bills, risk of bankruptcy</p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 TEXTBOOK DEFINITION</h4>
+            <p>"Working capital measures a business's short-term financial health. Positive working capital indicates the ability to meet short-term obligations."</p>
+        </div>
+    </div>
+
+    <!-- Slide 13: Balance Sheet Exercise -->
+    <div class="slide" data-slide="13">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 13 / 20</div>
+            <h1>📝 PRACTICE: Balance Sheet Calculations</h1>
+        </div>
+
+        <div class="big-visual">
+            <h2>Your Challenge!</h2>
+            <p style="font-size: 28px; margin-top: 20px;">Two calculations to master balance sheets</p>
+        </div>
+
+        <div class="format-box">
+            <h3>📊 Given Data for Tech Startup Ltd:</h3>
+            <pre>
+```
+
+Equipment                   £50,000
+Inventory                   £12,000
+Cash                        £8,000
+Trade Receivables           £15,000
+Buildings                   £200,000
+Trade Payables              £20,000
+Short-term Loan             £10,000
+Long-term Loan              £150,000
+Share Capital               £80,000
+Retained Earnings           £25,000
+</pre>
+</div>
+
+```
+        <div class="simple-box">
+            <p><strong>Task 1: Calculate Working Capital</strong></p>
+            <p>Formula: Current Assets - Current Liabilities</p>
+            <p style="margin-top: 20px;"><strong>Task 2: Calculate Net Assets (using A - L)</strong></p>
+            <p>Formula: Total Assets - Total Liabilities</p>
+            <p style="margin-top: 20px; font-size: 24px; color: #F59E0B;"><strong>Try it yourself before going to next slide!</strong></p>
+        </div>
+
+        <div class="step-box">
+            <h4>💡 HINTS:</h4>
+            <p>1. First, classify each item as Current Asset, Non-Current Asset, Current Liability, or Non-Current Liability</p>
+            <p>2. Remember: Current = within 1 year, Non-Current = over 1 year</p>
+            <p>3. Your Net Assets should equal Equity (£80k + £25k = £105k)</p>
+        </div>
+    </div>
+
+    <!-- Slide 14: Balance Sheet Exercise SOLUTION -->
+    <div class="slide" data-slide="14">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 14 / 20</div>
+            <h1>✅ SOLUTION: Balance Sheet (with Full Explanation)</h1>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 1: Classify Current Assets</h4>
+            <p><strong>Current Assets</strong> (short-term, < 1 year):</p>
+            <p>• Inventory: £12,000 (will sell within year)</p>
+            <p>• Trade Receivables: £15,000 (customers pay within year)</p>
+            <p>• Cash: £8,000 (already liquid!)</p>
+            <p><strong>Total Current Assets = £35,000</strong></p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 2: Classify Current Liabilities</h4>
+            <p><strong>Current Liabilities</strong> (due within 1 year):</p>
+            <p>• Trade Payables: £20,000 (pay suppliers soon)</p>
+            <p>• Short-term Loan: £10,000 (due this year)</p>
+            <p><strong>Total Current Liabilities = £30,000</strong></p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 3: Calculate Working Capital (CA - CL)</h4>
+            <p><strong>Formula:</strong> Current Assets - Current Liabilities</p>
+            <p>= £35,000 - £30,000</p>
+            <p>= <span class="highlight-green">£5,000 POSITIVE ✓</span></p>
+            <p><strong>Why?</strong> Company has £5k extra cushion to pay short-term bills. Healthy!</p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 4: Classify Non-Current Assets</h4>
+            <p><strong>Non-Current Assets</strong> (long-term, > 1 year):</p>
+            <p>• Buildings: £200,000 (use for decades)</p>
+            <p>• Equipment: £50,000 (use for several years)</p>
+            <p><strong>Total Non-Current Assets = £250,000</strong></p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 5: Calculate Total Assets</h4>
+            <p><strong>Formula:</strong> Non-Current Assets + Current Assets</p>
+            <p>= £250,000 + £35,000</p>
+            <p>= <span class="highlight-green">£285,000</span></p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 6: Classify Non-Current Liabilities</h4>
+            <p><strong>Non-Current Liabilities</strong> (due after 1 year):</p>
+            <p>• Long-term Loan: £150,000 (pay back over many years)</p>
+            <p><strong>Total Non-Current Liabilities = £150,000</strong></p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 7: Calculate Total Liabilities</h4>
+            <p><strong>Formula:</strong> Current Liabilities + Non-Current Liabilities</p>
+            <p>= £30,000 + £150,000</p>
+            <p>= <span class="highlight-red">£180,000</span></p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 8: Calculate Net Assets (A - L)</h4>
+            <p><strong>Formula:</strong> Total Assets - Total Liabilities</p>
+            <p>= £285,000 - £180,000</p>
+            <p>= <span class="highlight-green">£105,000</span></p>
+            <p><strong>Why?</strong> This is what the business is ACTUALLY worth after paying all debts!</p>
+        </div>
+
+        <div class="step-box">
+            <h4>STEP 9: Verify Against Equity ✓</h4>
+            <p><strong>Equity:</strong> Share Capital (£80,000) + Retained Earnings (£25,000)</p>
+            <p>= £105,000</p>
+            <p><strong>Check:</strong> Net Assets (£105,000) = Equity (£105,000) ✓✓✓</p>
+            <p style="font-size: 20px; margin-top: 15px; color: #065F46;"><strong>IT BALANCES! The accounting equation works!</strong></p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 SUMMARY OF ANSWERS</h4>
+            <p><strong>Working Capital:</strong> £5,000 (positive - good!)</p>
+            <p><strong>Net Assets:</strong> £105,000 (equals Equity - balanced!)</p>
+        </div>
+    </div>
+
+    <!-- Slide 15: Quiz - Balance Sheet -->
+    <div class="slide" data-slide="15">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 15 / 20</div>
+            <h1>✓ Check Understanding: Balance Sheet</h1>
+        </div>
+
+        <div class="question-box">
+            <h3 style="color: #003D5C; font-size: 24px;">A company has Current Assets £60k, Current Liabilities £80k. What does this mean?</h3>
+            <div class="mcq-option" onclick="checkAnswer(15, 'A', false)">
+                A) Strong position - plenty of cash
+            </div>
+            <div class="mcq-option" onclick="checkAnswer(15, 'B', true)">
+                B) Negative working capital £-20k - DANGER! Can't pay short-term bills
+            </div>
+            <div class="mcq-option" onclick="checkAnswer(15, 'C', false)">
+                C) Working capital is £140k
+            </div>
+            <div class="mcq-option" onclick="checkAnswer(15, 'D', false)">
+                D) Nothing to worry about
+            </div>
+            <div class="feedback" id="feedback-15"></div>
+            <button class="show-answer-btn" onclick="toggleExplanation(15)">Show Answer</button>
+            <div class="answer-explanation" id="explanation-15"></div>
+        </div>
+    </div>
+
+    <!-- Slide 16: What is Cash Flow Statement? -->
+    <div class="slide" data-slide="16">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 16 / 20</div>
+            <h1>What is a CASH FLOW STATEMENT?</h1>
+        </div>
+
+        <div class="big-visual">
+            <h2>Where did CASH come from?<br>Where did CASH go?</h2>
+            <p style="margin-top: 30px; font-size: 28px;">Tracks actual money movements</p>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>Critical Truth:</strong></p>
+            <p style="font-size: 28px; color: #DC2626;"><strong>PROFIT ≠ CASH!</strong></p>
+            <p style="margin-top: 20px;">You can make profit but have NO cash (and go bankrupt!)</p>
+            <p>You can have cash but make NO profit (borrowed money)</p>
+        </div>
+
+        <div class="example-box">
+            <h3>💰 Why Cash Flow Matters: Real Story</h3>
+            <p><strong>Construction Company 2019:</strong></p>
+            <p>Won £2 million contract (great profit!)</p>
+            <p>Problem: Customer pays in 12 months</p>
+            <p>But: Must pay workers NOW (£150k/month)</p>
+            <p style="margin-top: 20px;"><strong>Result:</strong></p>
+            <p>Month 6: <span class="highlight-green">Profitable on paper</span> (£2m contract)</p>
+            <p>Month 6: <span class="highlight-red">Ran out of cash</span> (no money to pay wages)</p>
+            <p>Month 7: <span class="highlight-red">BANKRUPT</span> despite being "profitable"!</p>
+            <p style="font-size: 22px; margin-top: 15px;"><strong>This is WHY we need cash flow statements!</strong></p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 TEXTBOOK DEFINITION</h4>
+            <p>"The cash flow statement shows the movement of cash in and out of a business during a period. It explains changes in the cash balance."</p>
+        </div>
+    </div>
+
+    <!-- Slide 17: Cash Flow Statement FORMAT -->
+    <div class="slide" data-slide="17">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 17 / 20</div>
+            <h1>⭐ CASH FLOW STATEMENT - Format ⭐</h1>
+        </div>
+
+        <div class="format-box">
+            <h3>📋 THE THREE SECTIONS</h3>
+            <div style="text-align: center; margin: 20px 0; font-family: Arial; font-weight: 700; font-size: 18px; color: #003D5C;">
+                ABC Company Ltd<br>
+                Cash Flow Statement for Year Ended 31 December 2025
+            </div>
+            <table class="statement-table">
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">Description</th>
+                        <th>Workings (£)</th>
+                        <th>Totals (£)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="section-header">
+                        <td><strong>OPERATING ACTIVITIES</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Cash received from customers</td>
+                        <td>620,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Cash paid to suppliers</td>
+                        <td>(380,000)</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Cash paid to employees</td>
+                        <td>(90,000)</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Other operating cash payments</td>
+                        <td>(30,000)</td>
+                        <td></td>
+                    </tr>
+                    <tr class="subtotal">
+                        <td><strong>Net cash from operations</strong></td>
+                        <td></td>
+                        <td class="positive">120,000</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="section-header">
+                        <td><strong>INVESTING ACTIVITIES</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Purchase of equipment</td>
+                        <td>(45,000)</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Sale of old vehicle</td>
+                        <td>8,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="subtotal">
+                        <td><strong>Net cash from investing</strong></td>
+                        <td></td>
+                        <td class="negative">(37,000)</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="section-header">
+                        <td><strong>FINANCING ACTIVITIES</strong></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>New bank loan received</td>
+                        <td>50,000</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Loan repayment</td>
+                        <td>(20,000)</td>
+                        <td></td>
+                    </tr>
+                    <tr class="indent-1">
+                        <td>Dividends paid to shareholders</td>
+                        <td>(15,000)</td>
+                        <td></td>
+                    </tr>
+                    <tr class="subtotal">
+                        <td><strong>Net cash from financing</strong></td>
+                        <td></td>
+                        <td class="positive">15,000</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="subtotal">
+                        <td><strong>NET INCREASE IN CASH</strong></td>
+                        <td></td>
+                        <td class="positive">98,000</td>
+                    </tr>
+                    <tr class="blank"><td colspan="3"></td></tr>
+                    <tr class="indent-1">
+                        <td>Cash at beginning of year</td>
+                        <td></td>
+                        <td>12,000</td>
+                    </tr>
+                    <tr class="total">
+                        <td><strong>Cash at end of year</strong></td>
+                        <td></td>
+                        <td class="positive">110,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>1. OPERATING ACTIVITIES</strong></p>
+            <p>• Cash from day-to-day business (customers, suppliers, wages)</p>
+            <p>• Most important section - should be POSITIVE!</p>
+            
+            <p style="margin-top: 20px;"><strong>2. INVESTING ACTIVITIES</strong></p>
+            <p>• Cash spent on/from long-term assets (equipment, buildings)</p>
+            <p>• Usually negative (buying assets for growth)</p>
+            
+            <p style="margin-top: 20px;"><strong>3. FINANCING ACTIVITIES</strong></p>
+            <p>• Cash from/to owners and lenders (loans, dividends)</p>
+            <p>• Can be positive (borrowing) or negative (repaying)</p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 HEALTHY CASH FLOW PATTERN</h4>
+            <p><strong>Operating:</strong> POSITIVE (making cash from business)</p>
+            <p><strong>Investing:</strong> NEGATIVE (investing in growth)</p>
+            <p><strong>Financing:</strong> VARIES (depends on strategy)</p>
+        </div>
+    </div>
+
+    <!-- Slide 18: Profit vs Cash Example -->
+    <div class="slide" data-slide="18">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 18 / 20</div>
+            <h1>PROFIT vs CASH - The Critical Difference</h1>
+        </div>
+
+        <div class="big-visual">
+            <h2>The £10,000 Credit Sale Example</h2>
+            <p style="font-size: 28px; margin-top: 20px;">March sale → April payment</p>
+        </div>
+
+        <div class="example-box">
+            <h3>📅 Timeline of Events</h3>
+            <p><strong>March 15th:</strong> Company sells goods for £10,000 on credit</p>
+            <p>Customer promises to pay in 30 days (April 15th)</p>
+            
+            <p style="margin-top: 20px;"><strong>Question 1: Does PROFIT increase in March?</strong></p>
+            <p style="font-size: 24px;"><span class="highlight-green">✓ YES! Profit +£10,000 in MARCH</span></p>
+            <p><strong>Why?</strong> Accounting recognizes revenue when EARNED (sale made), not when cash received!</p>
+            
+            <p style="margin-top: 20px;"><strong>Question 2: Does CASH increase in March?</strong></p>
+            <p style="font-size: 24px;"><span class="highlight-red">✗ NO! Cash +£0 in MARCH</span></p>
+            <p><strong>Why?</strong> Customer hasn't paid yet! No actual money received!</p>
+            
+            <p style="margin-top: 20px;"><strong>April 15th:</strong> Customer pays £10,000</p>
+            <p><strong>Profit in April:</strong> £0 (already counted in March)</p>
+            <p><strong>Cash in April:</strong> <span class="highlight-green">+£10,000 ✓</span></p>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>Income Statement (March):</strong> Shows £10k profit</p>
+            <p><strong>Cash Flow Statement (March):</strong> Shows £0 cash increase</p>
+            <p style="margin-top: 20px; font-size: 24px;"><strong>This is the TIMING DIFFERENCE!</strong></p>
+        </div>
+
+        <div class="step-box">
+            <h4>💡 WHY This Matters</h4>
+            <p>A company can show huge profits on the income statement but run out of cash and go BANKRUPT!</p>
+            <p>This is why investors read BOTH statements - profit tells one story, cash tells another!</p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 ACCRUAL ACCOUNTING</h4>
+            <p>Income Statement uses "accrual accounting" - records revenue when earned, not when cash received.</p>
+            <p>Cash Flow Statement shows actual cash movements - when money physically changes hands.</p>
+        </div>
+    </div>
+
+    <!-- Slide 19: Comparison Table -->
+    <div class="slide" data-slide="19">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 19 / 20</div>
+            <h1>ALL 3 STATEMENTS COMPARED</h1>
+        </div>
+
+        <div class="big-visual" style="min-height: 150px; padding: 30px;">
+            <h2 style="font-size: 36px;">The Complete Picture</h2>
+            <p style="font-size: 24px; margin-top: 20px;">All 3 statements together tell the FULL financial story</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Statement</th>
+                    <th>Purpose</th>
+                    <th>Time Focus</th>
+                    <th>Key Question</th>
+                    <th>Main Limitation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Income Statement</strong></td>
+                    <td>Measures profitability</td>
+                    <td>Over a PERIOD (year)</td>
+                    <td>Did we make profit?</td>
+                    <td>Profit ≠ Cash! Uses estimates (depreciation)</td>
+                </tr>
+                <tr>
+                    <td><strong>Balance Sheet</strong></td>
+                    <td>Shows financial position</td>
+                    <td>At a POINT in time</td>
+                    <td>What do we own/owe?</td>
+                    <td>Just a snapshot - doesn't show trends</td>
+                </tr>
+                <tr>
+                    <td><strong>Cash Flow</strong></td>
+                    <td>Tracks cash movements</td>
+                    <td>Over a PERIOD (year)</td>
+                    <td>Where did cash go?</td>
+                    <td>Doesn't measure profitability</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="example-box">
+            <h3>🍎 Apple Inc Example (Simplified 2023)</h3>
+            <p><strong>Income Statement says:</strong> "Apple made $97bn profit in 2023"</p>
+            <p><strong>Balance Sheet says:</strong> "Apple owns $353bn assets, owes $290bn, net worth $63bn on Dec 31"</p>
+            <p><strong>Cash Flow says:</strong> "Apple generated $110bn cash from operations in 2023"</p>
+            <p style="margin-top: 20px; font-size: 22px;"><strong>See? All 3 tell different parts of the story!</strong></p>
+        </div>
+
+        <div class="simple-box">
+            <p><strong>When to use each:</strong></p>
+            <p><span class="checkmark">✓</span> <strong>Income Statement:</strong> Evaluating profitability and performance</p>
+            <p><span class="checkmark">✓</span> <strong>Balance Sheet:</strong> Assessing financial health and solvency</p>
+            <p><span class="checkmark">✓</span> <strong>Cash Flow:</strong> Checking liquidity and cash management</p>
+        </div>
+
+        <div class="textbook-box">
+            <h4>📚 COMPLETE FINANCIAL ANALYSIS</h4>
+            <p>Professional investors ALWAYS analyze all three statements together. Reading just one gives an incomplete picture!</p>
+        </div>
+    </div>
+
+    <!-- Slide 20: SUMMARY -->
+    <div class="slide" data-slide="20">
+        <div class="slide-header">
+            <div class="slide-number">SLIDE 20 / 20</div>
+            <h1>SUMMARY: Financial Statement Mastery! 🎓</h1>
+        </div>
+
+        <div class="simple-box" style="font-size: 20px;">
+            <p><strong>INCOME STATEMENT:</strong></p>
+            <p>• Shows profit over a period (year)</p>
+            <p>• Revenue - Cost of Sales = Gross Profit</p>
+            <p>• Gross Profit - Expenses = Operating Profit</p>
+            <p>• Operating Profit - Interest - Tax = Net Profit</p>
+            
+            <p style="margin-top: 20px;"><strong>BALANCE SHEET:</strong></p>
+            <p>• Snapshot at a point in time</p>
+            <p>• Assets = Liabilities + Equity (MUST balance!)</p>
+            <p>• Working Capital = Current Assets - Current Liabilities</p>
+            <p>• Net Assets = Total Assets - Total Liabilities</p>
+            
+            <p style="margin-top: 20px;"><strong>CASH FLOW STATEMENT:</strong></p>
+            <p>• Tracks actual cash movements</p>
+            <p>• 3 sections: Operating, Investing, Financing</p>
+            <p>• CRITICAL: Profit ≠ Cash!</p>
+        </div>
+
+        <div class="big-visual">
+            <h2 style="color: #10B981;">🎉 YOU DID IT!</h2>
+            <p style="font-size: 24px; margin: 30px 0;">
+                You now understand how to read ANY company's financial statements!
+            </p>
+        </div>
+
+        <div class="format-box">
+            <h3>📚 KEY FORMULAS TO REMEMBER</h3>
+            <pre>
+```
+
+<strong>INCOME STATEMENT:</strong>
+Gross Profit = Revenue - Cost of Sales
+Cost of Sales = Opening Stock + Purchases - Closing Stock
+Net Profit = Operating Profit - Interest - Tax
+
+<strong>BALANCE SHEET:</strong>
+Assets = Liabilities + Equity
+Working Capital = Current Assets - Current Liabilities
+Net Assets = Total Assets - Total Liabilities
+
+<strong>CASH FLOW:</strong>
+Net Cash Flow = Operating + Investing + Financing
+</pre>
+</div>
+
+```
+        <div class="example-box">
+            <h3>💼 What's Next?</h3>
+            <p><strong>Practice reading real company reports:</strong></p>
+            <p>• Visit company websites (Investor Relations section)</p>
+            <p>• Download annual reports (all UK companies publish these)</p>
+            <p>• Try analyzing: Tesco, BP, Rolls-Royce, M&S</p>
+            <p style="margin-top: 20px;"><strong>Advanced Topics Coming:</strong></p>
+            <p>• Ratio Analysis (profitability, liquidity, efficiency)</p>
+            <p>• Trend Analysis (comparing years)</p>
+            <p>• Benchmarking (comparing companies)</p>
+        </div>
+
+        <div style="margin-top: 30px; padding: 25px; background: #E8F4F8; border-radius: 8px; border-left: 5px solid #003D5C;">
+            <p style="font-size: 22px; color: #003D5C;"><strong>🎯 You Now Have The Skills To:</strong></p>
+            <p style="font-size: 18px; margin-top: 15px;">✓ Read and understand any income statement</p>
+            <p style="font-size: 18px;">✓ Interpret balance sheets and assess financial health</p>
+            <p style="font-size: 18px;">✓ Understand the difference between profit and cash</p>
+            <p style="font-size: 18px;">✓ Prepare basic financial statements</p>
+            <p style="font-size: 18px;">✓ Evaluate if a company is financially healthy</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- NAVIGATION -->
+<div style="position:fixed!important;bottom:0!important;left:0!important;right:0!important;width:100%!important;background:#FFFFFF!important;padding:20px 40px!important;border-top:3px solid #003D5C!important;box-shadow:0 -4px 12px rgba(0,61,92,0.2)!important;z-index:999999!important;display:flex!important;justify-content:space-between!important;align-items:center!important;">
+    <button id="prevBtn" onclick="changeSlide(-1)" style="background:#003D5C!important;color:white!important;border:none!important;padding:15px 30px!important;border-radius:6px!important;cursor:pointer!important;font-size:18px!important;font-weight:600!important;">← Previous</button>
+    <div style="flex-grow:1!important;height:10px!important;background:#E0E0E0!important;border-radius:10px!important;margin:0 30px!important;overflow:hidden!important;">
+        <div id="progressBar" style="height:100%!important;background:linear-gradient(90deg,#4A90C5 0%,#003D5C 100%)!important;border-radius:10px!important;width:5%!important;transition:width 0.5s ease!important;"></div>
+    </div>
+    <button id="nextBtn" onclick="changeSlide(1)" style="background:#003D5C!important;color:white!important;border:none!important;padding:15px 30px!important;border-radius:6px!important;cursor:pointer!important;font-size:18px!important;font-weight:600!important;">Next →</button>
+</div>
+
+<script>
+    let currentSlide = 1;
+    const totalSlides = 20;
+
+    function showSlide(n) {
+        const slides = document.querySelectorAll('.slide');
+        if (n > totalSlides) currentSlide = totalSlides;
+        else if (n < 1) currentSlide = 1;
+        else currentSlide = n;
+
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[currentSlide - 1].classList.add('active');
+
+        document.getElementById('progressBar').style.width = (currentSlide / totalSlides) * 100 + '%';
+        document.getElementById('prevBtn').disabled = currentSlide === 1;
+        document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function changeSlide(direction) {
+        showSlide(currentSlide + direction);
+    }
+
+    function checkAnswer(slideNum, selected, isCorrect) {
+        const options = document.querySelectorAll(`[data-slide="${slideNum}"] .mcq-option`);
+        const feedback = document.getElementById(`feedback-${slideNum}`);
+        options.forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect'));
+        event.target.classList.add('selected');
+        if (isCorrect) {
+            event.target.classList.add('correct');
+            feedback.textContent = '✅ Correct! Well done!';
+            feedback.className = 'feedback correct show';
+        } else {
+            event.target.classList.add('incorrect');
+            feedback.textContent = '❌ Not quite. Click "Show Answer" below.';
+            feedback.className = 'feedback incorrect show';
+        }
+    }
+
+    function toggleExplanation(slideNum) {
+        const expDiv = document.getElementById(`explanation-${slideNum}`);
+        const btn = event.target;
+        if (expDiv.classList.contains('show')) {
+            expDiv.classList.remove('show');
+            btn.textContent = 'Show Answer';
+            btn.style.background = '#003D5C';
+            return;
+        }
+
+        const answers = {
+            7: {
+                correct: "B",
+                why: "Cost of Sales formula = Opening Stock + Purchases - Closing Stock. £5,000 + £20,000 - £8,000 = £17,000. This represents what was actually SOLD to customers (not what's still in stock).",
+                key: "Remember: Opening + Purchases - Closing = COGS. We subtract closing stock because it wasn't sold yet!"
+            },
+            15: {
+                correct: "B",
+                why: "Working Capital = Current Assets - Current Liabilities = £60k - £80k = -£20k NEGATIVE! This means the company owes £20k MORE than it has in short-term assets. DANGER ZONE - can't pay bills!",
+                key: "Negative working capital = liquidity crisis. Company needs to borrow or raise cash urgently!"
+            }
+        };
+
+        const ans = answers[slideNum];
+        expDiv.innerHTML = `
+            <h4 style="color: #065F46; font-size: 20px;">✅ Correct Answer: ${ans.correct}</h4>
+            <p style="font-size: 18px; margin: 15px 0;"><strong>Why?</strong> ${ans.why}</p>
+            <p style="margin-top: 20px; padding: 15px; background: #E0F2FE; border-left: 4px solid #0284C7; border-radius: 4px; font-size: 18px;"><strong>📚 Key Takeaway:</strong> ${ans.key}</p>
+        `;
+        expDiv.classList.add('show');
+        btn.textContent = 'Hide Answer';
+        btn.style.background = '#DC143C';
+    }
+
+    showSlide(1);
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowLeft') changeSlide(-1);
+        else if (event.key === 'ArrowRight') changeSlide(1);
+    });
+</script>
+```
+
+</body>
+</html>
